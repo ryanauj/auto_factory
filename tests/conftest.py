@@ -6,4 +6,4 @@ django.setup()
 
 
 def pytest_configure(config):
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tests.django_app.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django_app.settings")
