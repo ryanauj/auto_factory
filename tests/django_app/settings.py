@@ -29,3 +29,17 @@ INSTALLED_APPS = ["tests.django_app", "django_app"]
 MIDDLEWARE_CLASSES = ()
 
 SECRET_KEY = "testing."
+
+LOGGING_CONFIG = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "DEBUG",
+    },
+}
