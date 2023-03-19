@@ -1,10 +1,7 @@
 import pytest
-import django
 
 from auto_factory import AutoDjangoModelFactory
 from tests.django_app.models import TestModel
-
-django.setup()
 
 
 class TestModelFactory(AutoDjangoModelFactory):
