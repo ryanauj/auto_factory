@@ -4,6 +4,9 @@
 
 import os
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
 FACTORY_ROOT = os.path.join(
     os.path.abspath(
         os.path.dirname(__file__)
@@ -17,6 +20,7 @@ MEDIA_ROOT = os.path.join(FACTORY_ROOT, "tmp_test")
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     },
     "replica": {
         "ENGINE": "django.db.backends.sqlite3",
