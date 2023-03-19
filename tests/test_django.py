@@ -23,7 +23,7 @@ class TestModelFactory(AutoDjangoModelFactory):
 
 
 @pytest.mark.django_db
-def test_auto_faker_django_model_factory():
+def test_auto_django_model_factory():
     instance = TestModelFactory()
 
     assert instance.char_field is not None
