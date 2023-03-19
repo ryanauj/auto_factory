@@ -1,53 +1,62 @@
-import factory
-from factory import Faker
+# Import necessary modules and create a global Faker instance
+from decimal import Decimal
 from django.db import models
+import factory
+from faker import Faker
+
+faker_instance = Faker()
 
 
+# Define a function to generate fake data for each field based on its type
+def get_faker_method_for_field(field):
+    field_map = {
+        models.CharField: "word",
+        models.TextField: "text",
+        models.EmailField: "email",
+        models.URLField: "url",
+        models.IntegerField: "random_int",
+        models.FloatField: "pyfloat",
+        models.DecimalField: "pydecimal",
+        models.BooleanField: "boolean",
+        models.DateField: "date",
+        models.DateTimeField: "date_time",
+        models.TimeField: "time",
+        models.UUIDField: "uuid4",
+    }
+
+    field_type = type(field)
+
+    if field_type in field_map:
+        faker_method_name = field_map[field_type]
+        faker_method = getattr(faker_instance, faker_method_name)
+        if field_type == models.DecimalField:
+            # Generate a Decimal value with a maximum of 8 digits before the decimal point and 2 digits after
+            return Decimal(faker_method(left_digits=8, right_digits=2))
+        else:
+            return faker_method()
+    else:
+        return None
+
+
+# Define an abstract base factory class to generate fake data for Django models
 class AutoDjangoModelFactory(factory.django.DjangoModelFactory):
     class Meta:
         abstract = True
 
-    @staticmethod
-    def get_faker_method_for_field(field):
-        field_to_faker_map = {
-            models.CharField: lambda f: Faker("word").generate({})[: f.max_length],
-            models.TextField: lambda _: Faker("text").generate({}),
-            models.EmailField: lambda _: Faker("email").generate({}),
-            models.IntegerField: lambda _: Faker("random_int").generate({}),
-            models.FloatField: lambda _: Faker("random_number", decimals=2).generate(
-                {}
-            ),
-            models.DecimalField: lambda f: Faker(
-                "pydecimal",
-                left_digits=f.max_digits - f.decimal_places,
-                right_digits=f.decimal_places,
-            ).generate({}),
-            models.DateField: lambda _: Faker(
-                "date_between", start_date="-30d", end_date="today"
-            ).generate({}),
-            models.DateTimeField: lambda _: Faker(
-                "date_time_between", start_date="-30d", end_date="now"
-            ).generate({}),
-            models.URLField: lambda _: Faker("url").generate({}),
-            models.BooleanField: lambda _: Faker("boolean").generate({}),
-        }
-
-        faker_method = field_to_faker_map.get(type(field))
-        return faker_method(field) if faker_method else None
-
     @classmethod
     def _create(cls, model_class, *args, **kwargs):
-        fields = model_class._meta.fields
+        field_values = {}
 
-        for field in fields:
-            if (
-                not isinstance(
-                    field, (models.AutoField, models.OneToOneField, models.ForeignKey)
-                )
-                and field.name not in kwargs
+        # Generate fake data for each field in the model class
+        for field in model_class._meta.fields:
+            if field.name not in kwargs and not isinstance(
+                field, (models.AutoField, models.OneToOneField, models.ForeignKey)
             ):
-                faker_value = cls.get_faker_method_for_field(field)
-                if faker_value:
-                    kwargs[field.name] = faker_value
+                field_values[field.name] = get_faker_method_for_field(field)
 
+        # Update the kwargs dictionary with the fake data for each field
+        kwargs.update(field_values)
+
+        # Call the _create method of the parent factory class to
+        # create a new instance of the model class with the fake data
         return super()._create(model_class, *args, **kwargs)
