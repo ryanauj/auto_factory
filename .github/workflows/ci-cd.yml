@@ -36,6 +36,7 @@ jobs:
 
     - name: Run tests
       run: |
+        echo "DJANGO_SETTINGS_MODULE set to $DJANGO_SETTINGS_MODULE"
         pytest tests
 
     - name: Lint with Black
