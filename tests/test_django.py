@@ -1,7 +1,13 @@
 import pytest
+import os
+import django
 
 from auto_factory import AutoDjangoModelFactory
 from tests.django_app.models import TestModel
+
+# Setup Django before importing Django models.
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tests.django_app.settings")
+django.setup()
 
 
 class TestModelFactory(AutoDjangoModelFactory):
