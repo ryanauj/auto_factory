@@ -31,11 +31,6 @@ jobs:
         pip install -r requirements.txt
         pip install black pytest pytest-django
 
-    - name: Set DJANGO_SETTINGS_MODULE
-      env:
-        DJANGO_SETTINGS_MODULE: "tests.django_app.settings"
-      run: echo "DJANGO_SETTINGS_MODULE set to $DJANGO_SETTINGS_MODULE"
-
     - name: Run tests
       run: |
         pytest tests
