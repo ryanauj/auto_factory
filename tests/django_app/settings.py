@@ -24,7 +24,7 @@ DATABASES = {
 }
 
 
-INSTALLED_APPS = ["django_app"]
+INSTALLED_APPS = ["tests.django_app"]
 
 MIDDLEWARE_CLASSES = ()
 
