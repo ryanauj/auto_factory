@@ -27,6 +27,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install black pytest
+        set DJANGO_SETTINGS_MODULE=testing.settings
 
     - name: Run tests
       run: |
