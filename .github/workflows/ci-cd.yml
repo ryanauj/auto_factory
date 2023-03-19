@@ -31,6 +31,7 @@ jobs:
         pip install -r requirements.txt
         pip install black pytest pytest-django
 
+
     - name: Run tests
       run: |
         pytest tests
