@@ -1,6 +1,6 @@
-# AutoFaker Factory
+# Auto Factory
 
-`autofaker-factory` is a custom `DjangoModelFactory` that automatically generates Faker data for your Django model fields.
+`auto-factory` is a custom `DjangoModelFactory` that automatically generates Faker data for your Django model fields.
 It simplifies the process of creating test instances of your models, eliminating the need to manually define Faker values for each field.
 
 ## Installation
@@ -8,25 +8,25 @@ It simplifies the process of creating test instances of your models, eliminating
 Install the package using pip:
 
 ```bash
-pip install autofaker-factory
+pip install auto-factory
 ```
 
 ## Usage
 
-To use `autofaker-factory` in your Django project, follow these steps:
+To use `auto-factory` in your Django project, follow these steps:
 
-1. Import the `AutoFakerDjangoModelFactory` from the package:
+1. Import the `AutoDjangoModelFactory` from the package:
 
 ```python
-from autofaker_factory import AutoFakerDjangoModelFactory
+from auto_factory import AutoDjangoModelFactory
 ```
 
-2. Create a factory for your model by inheriting from `AutoFakerDjangoModelFactory`:
+2. Create a factory for your model by inheriting from `AutoDjangoModelFactory`:
 
 ```python
 from .models import MyModel
 
-class MyModelFactory(AutoFakerDjangoModelFactory):
+class MyModelFactory(AutoDjangoModelFactory):
     class Meta:
         model = MyModel
 ```
