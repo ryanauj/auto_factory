@@ -3,6 +3,10 @@ import pytest
 from auto_factory import AutoDjangoModelFactory
 from tests.django_app.models import TestModel
 
+import django
+
+django.setup()
+
 
 class TestModelFactory(AutoDjangoModelFactory):
     class Meta:
